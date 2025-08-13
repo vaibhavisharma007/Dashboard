@@ -27,8 +27,11 @@ const Transactions = () => {
     page: page + 1, // Backend expects 1-based page numbers
     pageSize,
     sort: sortModel[0] ? JSON.stringify(sortModel[0]) : "",
+    
     search,
   });
+  console.log("sortmodel",sortModel[0]);
+  
 
   console.log("Current state:", { page, pageSize, sortModel, search });
   console.log("API Response:", data);

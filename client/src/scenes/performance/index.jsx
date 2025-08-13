@@ -10,7 +10,8 @@ const Performance = () => {
   const theme = useTheme();
   const userId = useSelector((state) => state.global.userId);
   const { data, isLoading } = useGetUserPerformanceQuery(userId);
-  console.log(data);
+  console.log("key",data);
+  
   
   const columns = [
     {
@@ -21,6 +22,11 @@ const Performance = () => {
     {
       field: "userId",
       headerName: "User ID",
+      flex: 1,
+    },
+    {
+      field:"name",
+      headerName: "User Name",
       flex: 1,
     },
     {
@@ -42,6 +48,11 @@ const Performance = () => {
       renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
     },
   ];
+  const rows = data?.sales.map((sale) => ({
+  ...sale,
+  name: data.user.name, 
+  createdAt:data.user.createdAt
+})) || [];
 
   return (
     <Box m="1.5rem 2.5rem">
@@ -77,10 +88,11 @@ const Performance = () => {
           },
         }}
       >
+        
         <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={(data && data.sales) || []}
+          rows={rows}
           columns={columns}
         />
       </Box>
